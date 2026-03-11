@@ -158,7 +158,7 @@ jobs:
 
       # ── Upload APK artifact ───────────────────
       - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-apk
           path: ${{ env.APK_PATH }}
@@ -166,7 +166,7 @@ jobs:
 
       # ── Upload AAB artifact ───────────────────
       - name: Upload AAB artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-aab
           path: ${{ env.AAB_PATH }}

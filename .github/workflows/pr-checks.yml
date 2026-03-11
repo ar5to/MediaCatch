@@ -58,7 +58,7 @@ jobs:
         run: ./gradlew lint
 
       - name: Annotate PR with lint results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: pr-lint-report
@@ -88,7 +88,7 @@ jobs:
         run: ./gradlew test
 
       - name: Upload test results
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: pr-test-results

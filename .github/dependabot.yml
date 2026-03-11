@@ -1,0 +1,43 @@
+version: 2
+
+updates:
+  # ── Gradle / Android dependencies ─────────────
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "gradle"
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    groups:
+      androidx:
+        patterns:
+          - "androidx.*"
+      material:
+        patterns:
+          - "com.google.android.material*"
+      okhttp:
+        patterns:
+          - "com.squareup.okhttp3*"
+
+  # ── GitHub Actions ────────────────────────────
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "ci"

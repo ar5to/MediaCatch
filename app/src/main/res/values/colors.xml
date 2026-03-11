@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand Colors -->
+    <color name="primary">#1E88E5</color>
+    <color name="primary_dark">#1565C0</color>
+    <color name="primary_light">#BBDEFB</color>
+    <color name="accent">#FFC107</color>
+    <color name="accent_dark">#FF8F00</color>
+
+    <!-- Background Colors -->
+    <color name="background">#F5F5F5</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#E8F0FE</color>
+
+    <!-- Text Colors -->
+    <color name="on_primary">#FFFFFF</color>
+    <color name="on_background">#1A1A2E</color>
+    <color name="on_surface">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="text_hint">#9E9E9E</color>
+
+    <!-- Utility -->
+    <color name="divider">#E0E0E0</color>
+    <color name="error">#D32F2F</color>
+    <color name="success">#2E7D32</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+
+    <!-- Icon launcher background -->
+    <color name="ic_launcher_background">#1E88E5</color>
+    <color name="ic_launcher_foreground">#FFFFFF</color>
+
+    <!-- Progress bar colors -->
+    <color name="progress_track">#BBDEFB</color>
+    <color name="progress_indicator">#1E88E5</color>
+</resources>

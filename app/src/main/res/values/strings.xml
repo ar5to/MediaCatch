@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">MediaCatch</string>
+    <string name="app_tagline">Download Any Media, Instantly</string>
+    <string name="developer">ar5to</string>
+
+    <!-- Social / Developer Links -->
+    <string name="github_com">https://github.com/ar5to</string>
+    <string name="x_com">https://x.com/ar5to</string>
+    <string name="telegram_com">https://t.me/ar5to</string>
+
+    <!-- UI Labels -->
+    <string name="tap_to_download">Tap to Download</string>
+    <string name="fetching">Fetching media…</string>
+    <string name="downloading">Downloading…</string>
+    <string name="download_complete">Download Complete ✓</string>
+    <string name="download_failed">Download Failed</string>
+
+    <!-- API Key Screen -->
+    <string name="api_key_required">API Key Required</string>
+    <string name="api_key_description">Enter your RapidAPI key to unlock media downloading from 100+ platforms.</string>
+    <string name="enter_api_key">Enter API Key</string>
+    <string name="save_api_key">Save API Key</string>
+    <string name="how_to_get_key">How to Get Your API Key</string>
+    <string name="api_steps">1. Sign up at rapidapi.com\n\n2. Search for \'Social Download All In One\'\n\n3. Subscribe to the free plan\n\n4. Copy your API key from Code Snippets\n\n5. Paste it in the field above</string>
+    <string name="need_help">Need help?</string>
+    <string name="contact_support">Contact Support</string>
+    <string name="support_email">support@mediacatch.app</string>
+    <string name="support_subject">MediaCatch Support</string>
+
+    <!-- Dialog: Failed -->
+    <string name="download_failed_title">Download Failed</string>
+    <string name="download_failed_message">Please check your API key or try a different URL. Some platforms may not be supported.</string>
+    <string name="update_api_key">Update API Key</string>
+    <string name="restart_app">Restart</string>
+
+    <!-- Dialog: API Key -->
+    <string name="api_missing_title">API Key Required</string>
+    <string name="api_missing_message">Your API key is missing or invalid. Please update it to continue downloading media.</string>
+    <string name="update">Update Key</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Dialog: Info -->
+    <string name="info_version_prefix">Version</string>
+    <string name="info_description">MediaCatch lets you download videos and audio from 100+ social media platforms with a single tap.</string>
+    <string name="github_button">GitHub</string>
+    <string name="follow_button">Follow</string>
+
+    <!-- Permissions -->
+    <string name="permissions_required">Storage permission is required to save downloads.</string>
+    <string name="copy_url_first">Copy a video URL to your clipboard first</string>
+
+    <!-- Notifications -->
+    <string name="notification_channel_name">Downloads</string>
+    <string name="notification_channel_desc">MediaCatch download progress</string>
+    <string name="notification_fetching">Fetching download link…</string>
+    <string name="notification_complete">Download complete</string>
+    <string name="notification_failed">Download failed</string>
+</resources>

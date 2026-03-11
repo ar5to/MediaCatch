@@ -1,0 +1,147 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    types: [opened, synchronize, reopened]
+
+concurrency:
+  group: pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  # ─────────────────────────────────────────────
+  #  Changed Files Detection
+  # ─────────────────────────────────────────────
+  detect-changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    outputs:
+      source_changed: ${{ steps.filter.outputs.source }}
+      gradle_changed: ${{ steps.filter.outputs.gradle }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            source:
+              - 'app/src/**/*.java'
+              - 'app/src/**/*.kt'
+            gradle:
+              - '**/*.gradle'
+              - 'gradle/**'
+              - 'gradle.properties'
+
+  # ─────────────────────────────────────────────
+  #  Lint
+  # ─────────────────────────────────────────────
+  lint:
+    name: Lint Check
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - run: chmod +x gradlew
+
+      - name: Run Lint
+        run: ./gradlew lint
+
+      - name: Annotate PR with lint results
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: pr-lint-report
+          path: app/build/reports/lint-results*.html
+
+  # ─────────────────────────────────────────────
+  #  Unit Tests
+  # ─────────────────────────────────────────────
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: needs.detect-changes.outputs.source_changed == 'true'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - run: chmod +x gradlew
+
+      - name: Run tests
+        run: ./gradlew test
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: pr-test-results
+          path: app/build/reports/tests/
+
+  # ─────────────────────────────────────────────
+  #  Build Verification
+  # ─────────────────────────────────────────────
+  build-check:
+    name: Build Verification
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    if: always() && needs.lint.result != 'cancelled'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - run: chmod +x gradlew
+
+      - name: Build debug APK
+        run: ./gradlew assembleDebug
+
+      - name: Check APK size
+        run: |
+          APK="app/build/outputs/apk/debug/app-debug.apk"
+          SIZE=$(du -sh "$APK" | cut -f1)
+          echo "📦 Debug APK size: $SIZE"
+          echo "APK_SIZE=${SIZE}" >> $GITHUB_ENV
+
+          # Warn if APK exceeds 50MB
+          SIZE_BYTES=$(stat -c%s "$APK")
+          MAX_BYTES=$((50 * 1024 * 1024))
+          if [ "$SIZE_BYTES" -gt "$MAX_BYTES" ]; then
+            echo "⚠️ WARNING: APK size ($SIZE) exceeds 50MB limit!"
+          fi
+
+      - name: Comment APK info on PR
+        uses: actions/github-script@v7
+        if: github.event_name == 'pull_request'
+        with:
+          script: |
+            const apkSize = process.env.APK_SIZE;
+            const sha = context.payload.pull_request.head.sha.substring(0, 7);
+            const body = `### ✅ Build Passed\n\n| | |\n|---|---|\n| **APK Size** | \`${apkSize}\` |\n| **Commit** | \`${sha}\` |\n| **Build** | Debug |\n\nDownload the debug APK from the [Actions artifacts](${context.payload.pull_request.html_url}/checks).`;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });

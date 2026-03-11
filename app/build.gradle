@@ -1,0 +1,63 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.arsto.mediacatch'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.arsto.mediacatch"
+        minSdk 26
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lint {
+        // Only fail the build on errors, not warnings
+        warningsAsErrors false
+        abortOnError true
+        // Suppress noisy but non-critical checks
+        disable 'GoogleAppIndexingWarning',
+                'MissingTranslation',
+                'ExtraTranslation',
+                'TypographyDashes',
+                'ObsoleteLintCustomCheck'
+        // Generate both HTML and text reports
+        htmlReport true
+        textReport true
+        xmlReport false
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
+    implementation 'androidx.annotation:annotation:1.9.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.2.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.6.1'
+}
